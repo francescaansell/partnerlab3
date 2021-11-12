@@ -1,4 +1,5 @@
 /////////////////////////////////////////////////////////////////////////////////////////////// File part 
+/*
 const fs = require('fs');
 
 let resList = [
@@ -31,11 +32,10 @@ fs.writeFile('resList1.json', JSON.stringify(resList), err => {
     console.log('Saved File.')
 });
 
+//Its going to be problematic when we read the file and then use it 
+//Reading from the file is an async operations
+//error trying to assign a value that doesn't exist yest 
 
-/*Its going to be problematic when we read the file and then use it 
-REading from the file is an async operations
-error trying to assign a value that doesn't exist yest 
-*/ 
 let resFileData = fs.readFileSync("resList1.json");
 
 let resInfo = JSON.parse(resFileData);
@@ -46,6 +46,7 @@ resInfo.sort((res1, res2) => {
 })
 
 console.log(resInfo);
+*/
 
 
 
@@ -60,7 +61,7 @@ console.log(resInfo);
 
 
 
-/*
+
 /////////////////////////////////////////////////////////////////////////////////// API PART
 // create application for web server 
 const express = require('express');
@@ -69,15 +70,14 @@ const app = express();
 const port = 3000;
 
 // like (method === ‘get’ && url === ‘/') but better
-app.get('/', (req, res) => {
-    res.send('Hello from GET!');
+app.get('/getReservations', (req, res) => {
+    res.write(req)
+    res.send('\nGet Reservations\n');
 });
 
-app.get('/getdog', (req, res) => {
-    res.send('\nHere is a dog!\n')
-});
 
-//route paramater 
+
+/*
 app.get('/getdog/:dogName', (req, res) => {
     let dogName = req.params.dogName;
     res.send(`\nHere is a dog named ${dogName}\n`)
