@@ -1,20 +1,72 @@
-/**
- * Add a username to the system (no password or auth required)
-Retrieve the reservation info (if they have one) for a given user.
-Get a list of reservations for all users.
-Create a reservation for a given user. It should specify username, start date, start time, and number of hours
-Update a reservation for a given user. It should specify username, start date, start time, and number of hours
-Delete a reservation for a given user
- */
-
+/////////////////////////////////////////////////////////////////////////////////////////////// File part 
 const fs = require('fs');
 
+let resList = [
+    {
+        name: 'Smith',
+        time: '0900',
+        num: 4
+    },
+    {
+        name: 'Jones',
+        time: '1100',
+        num: 2
+    }
+];
+
+let millerRes = {};
+millerRes.name = 'Miller';
+millerRes.time = '1800';
+millerRes.num = 3;
+
+resList.push(millerRes);
+
+resList.forEach((elt) => {
+    console.log(`Name: ${elt.name}, Num: ${elt.num}`)
+});
+
+
+fs.writeFile('resList1.json', JSON.stringify(resList), err => {
+    if (err) throw err; 
+    console.log('Saved File.')
+});
+
+
+/*Its going to be problematic when we read the file and then use it 
+REading from the file is an async operations
+error trying to assign a value that doesn't exist yest 
+*/ 
+let resFileData = fs.readFileSync("resList1.json");
+
+let resInfo = JSON.parse(resFileData);
+
+resInfo.sort((res1, res2) => {
+    if (res1.num > res2.num) return 1; 
+    if (res1.num < res2.num) return -1; 
+})
+
+console.log(resInfo);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+/////////////////////////////////////////////////////////////////////////////////// API PART
 // create application for web server 
 const express = require('express');
 const app = express();
 
 const port = 3000;
-
 
 // like (method === ‘get’ && url === ‘/') but better
 app.get('/', (req, res) => {
@@ -43,3 +95,4 @@ app.post('/', (req, res) => {
 
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
+*/
