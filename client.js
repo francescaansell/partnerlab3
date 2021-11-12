@@ -1,16 +1,14 @@
-function callAPI(path){
+function getReservations(){
+    console.log("getReservations");
     const request = new XMLHttpRequest();
+    request.open("GET", "http://localhost:3000/reservations", true);
 
-    //When ready to open connection, do this..... DOES NOT OPEN CONNECTION
-    request.open("GET", "http://localhost:3000/" + path, true);
-
-    //Callback function, when data has loaded, do this function async
     request.onload = function () {
         if (!request.status == 200) {
             console.log(`ERROR Code: ${request.status}`)
             return;
         }
-        //Turns JSON into JS Object
+
         let data = this.response;
 
         let output = document.querySelector('#reservations');
@@ -18,13 +16,9 @@ function callAPI(path){
         let newTextNode = document.createTextNode(data)
 
         tableData.appendChild(newTextNode);
-        output.appendChild(listItem);
+        output.appendChild(tableData);
 
     };
 
     request.send();
 }
-
- function clearScreen(){
-    document.querySelector('#reservations').innerHTML="";
- }

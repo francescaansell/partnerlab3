@@ -7,4 +7,7 @@ Delete a reservation for a given user
 
 
 TODO 
-Need to intergrate writing to the file and the api
+Need to integrate writing to the file and the api
+
+
+Can maintain files in sorted order OR sort from the server OR sort on the client 

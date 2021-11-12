@@ -1,3 +1,36 @@
+/////////////////////////////////////////////////////////////////////////////////// API PART
+// create application for web server
+let cors = require('cors');
+ 
+const express = require('express');
+const app = express();
+app.use(cors());
+
+const port = 3000;
+
+app.get('/reservations', (req, res) => {
+    res.send('\nGet Reservations\n');
+});
+
+app.post('/', (req, res) => {
+    res.send('Hello from POST!');
+});
+
+/*
+app.get('/getdog/:dogName', (req, res) => {
+    let dogName = req.params.dogName;
+    res.send(`\nHere is a dog named ${dogName}\n`)
+});
+
+app.get('/getdog/:dogName/owner/:ownerName', (req, res) => {
+    let dogName = req.params.dogName;
+    let ownerName = req.params.ownerName;
+    res.send(`\n${dogName} belongs to ${ownerName}\n`)
+})
+*/
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
 /////////////////////////////////////////////////////////////////////////////////////////////// File part 
 /*
 const fs = require('fs');
@@ -62,37 +95,4 @@ console.log(resInfo);
 
 
 
-/////////////////////////////////////////////////////////////////////////////////// API PART
-// create application for web server 
-const express = require('express');
-const app = express();
 
-const port = 3000;
-
-// like (method === ‘get’ && url === ‘/') but better
-app.get('/getReservations', (req, res) => {
-    res.write(req)
-    res.send('\nGet Reservations\n');
-});
-
-
-
-/*
-app.get('/getdog/:dogName', (req, res) => {
-    let dogName = req.params.dogName;
-    res.send(`\nHere is a dog named ${dogName}\n`)
-});
-
-app.get('/getdog/:dogName/owner/:ownerName', (req, res) => {
-    let dogName = req.params.dogName;
-    let ownerName = req.params.ownerName;
-    res.send(`\n${dogName} belongs to ${ownerName}\n`)
-})
-
-app.post('/', (req, res) => {
-    res.send('Hello from POST!');
-});
-
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
-*/
