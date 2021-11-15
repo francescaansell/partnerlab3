@@ -1,20 +1,42 @@
-/////////////////////////////////////////////////////////////////////////////////// API PART
+////////////////////////////////////////////////////////////////////////////////////////////////// API PART
 // create application for web server
 let cors = require('cors');
- 
+const fs = require('fs');
 const express = require('express');
 const app = express();
 app.use(cors());
-
 const port = 3000;
+
+
+let resList = [
+    {
+        username: 'Smith', 
+        startTime: '009',
+        startDate: '9/2/2021', 
+        numHours: '8'
+    }
+    
+    
+]
 
 app.get('/reservations', (req, res) => {
     res.send('\nGet Reservations\n');
+
 });
 
-app.post('/', (req, res) => {
-    res.send('Hello from POST!');
+app.post('/users/:username', (req, res) => {
+    let username = req.params.username;
+    res.send(`${username}`);
 });
+
+app.post('/reservations/:username'), (req, res) => {
+    let username = req.params.username; 
+    res.send(`${username}`);
+    let temp = {}; 
+    temp.name = username; 
+    reservations.push(temp);  
+}
+
 
 /*
 app.get('/getdog/:dogName', (req, res) => {
@@ -33,7 +55,7 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 
 /////////////////////////////////////////////////////////////////////////////////////////////// File part 
 /*
-const fs = require('fs');
+
 
 let resList = [
     {
