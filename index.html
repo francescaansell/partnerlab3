@@ -1,19 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
     <title>Laptop Rental</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <button onclick="getReservations();">GET RESERVATIONS</button>
-    <table id="reservations">
 
-    </table>
+<body>
+    <h2>Welcome to our Laptop Rental</h2>
+
+    <h3>Add Username to System</h3>
+    <p>Please enter a username in order to add it to the system:</p>
+
+    <input type="text" id="addUser" name="addUser"><br><br>
+
+    <button onclick="addUser();">Add Username</button>
+    <ul id="retrieve"></ul>
+
+    <br>
+
+    <h3>Retrieve Reservation Information</h3>
+    <p>Please search a username to retrieve any associated reservation info:</p>
+
+    <input type="text" id="retrieveUser" name="retrieveUser"><br><br>
+
+    <button onclick="retrieveReservationInfo();">Retrieve Reservation Info</button>
+    <ul id="retrieve"></ul>
+
+    <br>
+    
+    <h3>Add Reservation</h3>
+    <p>Please add the necessary information to create a reservation:</p>
+
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username"><br>
+    <label for="startDate">Start Date:</label><br>
+    <input type="text" id="startDate" name="startDate"><br>
+    <label for="startTime">Start Time:</label><br>
+    <input type="text" id="startTime" name="startTime"><br>
+    <label for="numHours">Number of Hours:</label><br>
+    <input type="text" id="numHours" name="numHours"><br><br>
+
+    <button onclick="createReservationInfo(); ">Submit Reservation Info</button><br>
+    
+    <br>
+
+    <h3>Reservation Information: </h3>
+
+    <button onclick="getReservations(); ">Get List of Reservations</button><br>
+
+    <table id="reservations"></table>
 
 
 
     <script src="client.js" defer></script>
 </body>
+
 </html>
