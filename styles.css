@@ -1,0 +1,14 @@
+h3 {
+    color: rgb(4, 80, 131);
+}
+
+h2 {
+    color: rgb(2, 61, 100);
+}
+
+button {
+    border-radius: 8px;
+    background-color: rgb(235, 235, 235);
+    border: 2px solid rgb(23, 123, 190);
+    margin: 0px 6px 0px 6px
+}
