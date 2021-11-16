@@ -7,75 +7,71 @@ const app = express();
 app.use(cors());
 const port = 3000;
 
-
-let resList = [
+let reservations = [
     {
-        username: 'Smith', 
+        name: 'Smith', 
         startTime: '009',
-        startDate: '9/2/2021', 
         numHours: '8'
     }
-    
-    
-]
+];
 
-app.get('/reservations', (req, res) => {
-    res.send('\nGet Reservations\n');
+let users = [
+    {
+        name: "example"
+    }
+];
 
+app.get('/getreservations', (req, res) => {
+    console.log(`get reservations`);
+    res.send(reservations);     
 });
 
-app.post('/users/:username', (req, res) => {
-    let username = req.params.username;
-    res.send(`${username}`);
-});
-
-app.post('/reservations/:username'), (req, res) => {
+//sync issue 
+app.get('/getreservation/user/:username', (req, res) => {
     let username = req.params.username; 
+    console.log(`get reservations${username}`);
+
+    let temp; 
+    reservations.forEach(reservation => {
+        if(reservation.name == username){
+            console.log("match");
+            temp = reservation.username;
+        }
+    });
+    res.send(temp); 
+});
+
+app.post('/postusers/:username', (req, res) => {
+    let username = req.params.username;
+    console.log(`post users/${username}`);
+
+    let temp = {};
+    temp.name = username; 
+    users.push(temp); 
+    console.log(users);
+
     res.send(`${username}`);
+});
+
+app.post('/postreservation/user/:username/startTime/:startTime', (req, res) => {
+    let username = req.params.username; 
+    let startTime = req.params.startTime; 
+    console.log(`post reservations/user/${username}/startTime/${startTime}`);
+    
     let temp = {}; 
     temp.name = username; 
+    temp.startTime = startTime; 
     reservations.push(temp);  
-}
+    console.log(temp);
 
-
-/*
-app.get('/getdog/:dogName', (req, res) => {
-    let dogName = req.params.dogName;
-    res.send(`\nHere is a dog named ${dogName}\n`)
+    res.send(`Username: ${username} Start Date: ${startTime}`); 
 });
 
-app.get('/getdog/:dogName/owner/:ownerName', (req, res) => {
-    let dogName = req.params.dogName;
-    let ownerName = req.params.ownerName;
-    res.send(`\n${dogName} belongs to ${ownerName}\n`)
-})
-*/
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
 
 /////////////////////////////////////////////////////////////////////////////////////////////// File part 
 /*
-
-
-let resList = [
-    {
-        name: 'Smith',
-        time: '0900',
-        num: 4
-    },
-    {
-        name: 'Jones',
-        time: '1100',
-        num: 2
-    }
-];
-
-let millerRes = {};
-millerRes.name = 'Miller';
-millerRes.time = '1800';
-millerRes.num = 3;
-
-resList.push(millerRes);
 
 resList.forEach((elt) => {
     console.log(`Name: ${elt.name}, Num: ${elt.num}`)
