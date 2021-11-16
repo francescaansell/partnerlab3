@@ -8,17 +8,11 @@ app.use(cors());
 const port = 3000;
 
 let reservations = [
-    {
-        name: 'Smith', 
-        startTime: '009',
-        numHours: '8'
-    }
+    
 ];
 
 let users = [
-    {
-        name: "example"
-    }
+ 
 ];
 
 app.get('/getreservations', (req, res) => {
@@ -50,6 +44,10 @@ app.post('/postusers/:username', (req, res) => {
     users.push(temp); 
     console.log(users);
 
+    fs.writeFile('users.json', JSON.stringify(users), err => {
+        if (err) throw err; 
+        console.log('Saved File.')
+    });
     res.send(`${username}`);
 });
 
@@ -61,9 +59,17 @@ app.post('/postreservation/user/:username/startTime/:startTime', (req, res) => {
     let temp = {}; 
     temp.name = username; 
     temp.startTime = startTime; 
-    reservations.push(temp);  
-    console.log(temp);
-
+    reservations.push(temp);
+    reservations.sort((res1, res2) => {
+        if (res1.startTime > res2.startTime) return 1; 
+        if (res1.startTime < res2.startTime) return -1; 
+    });
+    console.log(reservations);
+    
+    fs.writeFile('reservations.json', JSON.stringify(reservations), err => {
+        if (err) throw err; 
+        console.log('Saved File.')
+    });
     res.send(`Username: ${username} Start Date: ${startTime}`); 
 });
 
