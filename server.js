@@ -1,26 +1,77 @@
-/////////////////////////////////////////////////////////////////////////////////////////////// File part 
-/*
+////////////////////////////////////////////////////////////////////////////////////////////////// API PART
+// create application for web server
+let cors = require('cors');
 const fs = require('fs');
+const express = require('express');
+const app = express();
+app.use(cors());
+const port = 3000;
 
-let resList = [
+let reservations = [
     {
-        name: 'Smith',
-        time: '0900',
-        num: 4
-    },
-    {
-        name: 'Jones',
-        time: '1100',
-        num: 2
+        name: 'Smith', 
+        startTime: '009',
+        numHours: '8'
     }
 ];
 
-let millerRes = {};
-millerRes.name = 'Miller';
-millerRes.time = '1800';
-millerRes.num = 3;
+let users = [
+    {
+        name: "example"
+    }
+];
 
-resList.push(millerRes);
+app.get('/getreservations', (req, res) => {
+    console.log(`get reservations`);
+    res.send(reservations);     
+});
+
+//sync issue 
+app.get('/getreservation/user/:username', (req, res) => {
+    let username = req.params.username; 
+    console.log(`get reservations${username}`);
+
+    let temp; 
+    reservations.forEach(reservation => {
+        if(reservation.name == username){
+            console.log("match");
+            temp = reservation.username;
+        }
+    });
+    res.send(temp); 
+});
+
+app.post('/postusers/:username', (req, res) => {
+    let username = req.params.username;
+    console.log(`post users/${username}`);
+
+    let temp = {};
+    temp.name = username; 
+    users.push(temp); 
+    console.log(users);
+
+    res.send(`${username}`);
+});
+
+app.post('/postreservation/user/:username/startTime/:startTime', (req, res) => {
+    let username = req.params.username; 
+    let startTime = req.params.startTime; 
+    console.log(`post reservations/user/${username}/startTime/${startTime}`);
+    
+    let temp = {}; 
+    temp.name = username; 
+    temp.startTime = startTime; 
+    reservations.push(temp);  
+    console.log(temp);
+
+    res.send(`Username: ${username} Start Date: ${startTime}`); 
+});
+
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
+
+/////////////////////////////////////////////////////////////////////////////////////////////// File part 
+/*
 
 resList.forEach((elt) => {
     console.log(`Name: ${elt.name}, Num: ${elt.num}`)
@@ -62,37 +113,4 @@ console.log(resInfo);
 
 
 
-/////////////////////////////////////////////////////////////////////////////////// API PART
-// create application for web server 
-const express = require('express');
-const app = express();
 
-const port = 3000;
-
-// like (method === ‘get’ && url === ‘/') but better
-app.get('/getReservations', (req, res) => {
-    res.write(req)
-    res.send('\nGet Reservations\n');
-});
-
-
-
-/*
-app.get('/getdog/:dogName', (req, res) => {
-    let dogName = req.params.dogName;
-    res.send(`\nHere is a dog named ${dogName}\n`)
-});
-
-app.get('/getdog/:dogName/owner/:ownerName', (req, res) => {
-    let dogName = req.params.dogName;
-    let ownerName = req.params.ownerName;
-    res.send(`\n${dogName} belongs to ${ownerName}\n`)
-})
-
-app.post('/', (req, res) => {
-    res.send('Hello from POST!');
-});
-
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
-*/

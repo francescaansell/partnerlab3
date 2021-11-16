@@ -25,9 +25,9 @@
     <h3>Retrieve Reservation Information</h3>
     <p>Please search a username to retrieve any associated reservation info:</p>
 
-    <input type="text" id="retrieveUser" name="retrieveUser"><br><br>
+    <input type="text" id="getReservationUsername" name="getReservationUsername"><br><br>
 
-    <button onclick="retrieveReservationInfo();">Retrieve Reservation Info</button>
+    <button onclick="getReservationUsername();">Retrieve Reservation Info</button>
     <ul id="retrieve"></ul>
 
     <br>
@@ -36,15 +36,13 @@
     <p>Please add the necessary information to create a reservation:</p>
 
     <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username"><br>
-    <label for="startDate">Start Date:</label><br>
-    <input type="text" id="startDate" name="startDate"><br>
+        <input type="text" id="username" name="username" required><br>
     <label for="startTime">Start Time:</label><br>
-    <input type="text" id="startTime" name="startTime"><br>
+        <input type="datetime-local" id="startTime" name="startTime" required><br>
     <label for="numHours">Number of Hours:</label><br>
-    <input type="text" id="numHours" name="numHours"><br><br>
+        <input type="number" id="numHours" name="numHours" required><br><br>
 
-    <button onclick="createReservationInfo(); ">Submit Reservation Info</button><br>
+    <button onclick="addReservation(); ">Submit Reservation Info</button><br>
     
     <br>
 
