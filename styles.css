@@ -12,3 +12,10 @@ button {
     border: 2px solid rgb(23, 123, 190);
     margin: 0px 6px 0px 6px
 }
+
+table, th, td {
+    border: 2px solid black; 
+    border-collapse: collapse; 
+    padding: 5px; 
+    margin: 5px; 
+}

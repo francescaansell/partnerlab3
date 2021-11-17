@@ -37,8 +37,10 @@
 
     <label for="username">Username:</label><br>
         <input type="text" id="username" name="username" required><br>
+    <label for="startDate">Start Date:</label><br>
+        <input type="text" id="startDate" name="startDate" required><br>
     <label for="startTime">Start Time:</label><br>
-        <input type="datetime-local" id="startTime" name="startTime" required><br>
+        <input type="text" id="startTime" name="startTime" required><br>
     <label for="numHours">Number of Hours:</label><br>
         <input type="number" id="numHours" name="numHours" required><br><br>
 
@@ -63,15 +65,26 @@
     
     <br>
     <br>
-    
-    <h3>Reservation Information: </h3>
+    <br>
+    <br>
+    <br>
 
-    <button onclick="getReservations(); ">Get List of Reservations</button><br>
-
-    <table id="reservations"></table>
-
-
-
+    <table id="reservations">
+        <tr>
+            <th>
+                Username
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                Start Time
+            </th>
+            <th>
+                Number of hours 
+            </th>
+        </tr>
+    </table>
     <script src="client.js" defer></script>
 </body>
 
