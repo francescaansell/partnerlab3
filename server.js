@@ -1,5 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////////////////////// API PART
-// create application for web server
 let cors = require('cors');
 const fs = require('fs');
 const express = require('express');
@@ -7,29 +5,26 @@ const app = express();
 app.use(cors());
 const port = 3000;
 
-let reservations = [
-    
-];
-
-let users = [
- 
-];
 
 app.get('/getreservations', (req, res) => {
     console.log(`get reservations`);
-    res.send(reservations);     
+    let resFileData = fs.readFileSync("reservations.json");
+    let resInfo = JSON.parse(resFileData);
+    console.log(resInfo); 
+    res.send(resInfo);     
 });
 
-//sync issue 
 app.get('/getreservation/user/:username', (req, res) => {
     let username = req.params.username; 
     console.log(`get reservations${username}`);
+    let resFileData = fs.readFileSync("reservations.json");
+    let reservations = JSON.parse(resFileData);
 
     let temp; 
     reservations.forEach(reservation => {
         if(reservation.name == username){
             console.log("match");
-            temp = reservation.username;
+            temp = reservation;
         }
     });
     res.send(temp); 
@@ -39,72 +34,75 @@ app.post('/postusers/:username', (req, res) => {
     let username = req.params.username;
     console.log(`post users/${username}`);
 
-    let temp = {};
-    temp.name = username; 
-    users.push(temp); 
-    console.log(users);
+    let userFileData = fs.readFileSync('users.json');
+    let users = JSON.parse(userFileData);
 
-    fs.writeFile('users.json', JSON.stringify(users), err => {
-        if (err) throw err; 
-        console.log('Saved File.')
+    let temp = {}; 
+    temp.name = username; 
+    console.log(temp);
+    users.push(temp); 
+
+    users.sort((user1, user2) => {
+        if (user1.name > user2.name) return 1; 
+        if (user1.name < user2.name) return -1; 
     });
-    res.send(`${username}`);
+
+    fs.writeFileSync('users.json', JSON.stringify(users));
+    console.log(users);
+    res.send(temp);
 });
 
 app.post('/postreservation/user/:username/startTime/:startTime', (req, res) => {
     let username = req.params.username; 
     let startTime = req.params.startTime; 
+
     console.log(`post reservations/user/${username}/startTime/${startTime}`);
     
+    let resFileData = fs.readFileSync('reservations.json');
+    let reservations = JSON.parse(resFileData);
+
     let temp = {}; 
     temp.name = username; 
     temp.startTime = startTime; 
     reservations.push(temp);
+
     reservations.sort((res1, res2) => {
         if (res1.startTime > res2.startTime) return 1; 
         if (res1.startTime < res2.startTime) return -1; 
     });
+
     console.log(reservations);
     
-    fs.writeFile('reservations.json', JSON.stringify(reservations), err => {
-        if (err) throw err; 
-        console.log('Saved File.')
-    });
-    res.send(`Username: ${username} Start Date: ${startTime}`); 
+    fs.writeFileSync('reservations.json', JSON.stringify(reservations));
+    res.send(temp); 
 });
 
+app.delete('/deletereservation/user/:username', (req, res) =>{
+    let username = req.params.username; 
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+    console.log(`delete reservations/user/${username}`);
 
-/////////////////////////////////////////////////////////////////////////////////////////////// File part 
-/*
+    let resFileData = fs.readFileSync('reservations.json');
+    let reservations = JSON.parse(resFileData);
+    let temp;
 
-resList.forEach((elt) => {
-    console.log(`Name: ${elt.name}, Num: ${elt.num}`)
-});
+    for (let i = 0; i < reservations.lenth; i++ ){
+        console.log(reservations[i]);
+        if (reservations[i].name == username){
+            console.log('match');
+            temp = reservations[i];
+            console.log(`remove: ${temp}`);
+            reservations = reservations.splice(i, 1);
+        }
+    }
 
+    console.log(reservations);
 
-fs.writeFile('resList1.json', JSON.stringify(resList), err => {
-    if (err) throw err; 
-    console.log('Saved File.')
-});
-
-//Its going to be problematic when we read the file and then use it 
-//Reading from the file is an async operations
-//error trying to assign a value that doesn't exist yest 
-
-let resFileData = fs.readFileSync("resList1.json");
-
-let resInfo = JSON.parse(resFileData);
-
-resInfo.sort((res1, res2) => {
-    if (res1.num > res2.num) return 1; 
-    if (res1.num < res2.num) return -1; 
+    fs.writeFileSync('reservations.json', JSON.stringify(reservations));
+    res.send(temp);
 })
 
-console.log(resInfo);
-*/
-
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
 

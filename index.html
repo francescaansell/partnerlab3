@@ -28,9 +28,9 @@
     <input type="text" id="getReservationUsername" name="getReservationUsername"><br><br>
 
     <button onclick="getReservationUsername();">Retrieve Reservation Info</button>
-    <ul id="retrieve"></ul>
 
     <br>
+
     
     <h3>Add Reservation</h3>
     <p>Please add the necessary information to create a reservation:</p>
@@ -44,8 +44,26 @@
 
     <button onclick="addReservation(); ">Submit Reservation Info</button><br>
     
+  
     <br>
 
+    <h3>Delete Reservation Information</h3>
+    <p>Please search a username to delete any associated reservation info:</p>
+
+    <input type="text" id="deleteReservationUsername" name="deleteReservationUsername"><br><br>
+
+    <button onclick="deleteReservation();">Delete Reservation Info</button>
+
+    <br>
+    <br>
+
+    <h3>Retrieve All Reservation Information</h3>
+    <p>Click here to retrieve all reservations information for all users:</p>
+    <button onclick="getReservations(); ">Get List of Reservations</button>
+    
+    <br>
+    <br>
+    
     <h3>Reservation Information: </h3>
 
     <button onclick="getReservations(); ">Get List of Reservations</button><br>

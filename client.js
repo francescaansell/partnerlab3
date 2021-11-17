@@ -115,3 +115,30 @@ function addReservation(){
 
 }
 
+function deleteReservation(){
+    console.log("delete reservation");
+    const request = new XMLHttpRequest();
+    let username = document.querySelector("#deleteReservationUsername");
+
+    request.open("DELETE", "http://localhost:3000/deletereservation/user/" + username, true);
+
+    request.onload = function () {
+        if (!request.status == 200){
+            console.log(`ERROR code: ${request.status}`);
+            return; 
+        }
+
+        let data = this.response; 
+
+        let output = document.querySelector("#reservations");
+        let tableRow = document.createElement('tr');
+        let tableData = document.createElement('td');
+        let newTextNode = document.createTextNode(data);
+
+        tableData.appendChild(newTextNode);
+        tableRow.appendChild(tableData);
+        output.appendChild(tableRow);
+    }
+
+    request.send();
+}
