@@ -10,8 +10,7 @@ app.get('/getreservations', (req, res) => {
     console.log(`get reservations`);
     let resFileData = fs.readFileSync("reservations.json");
     let resInfo = JSON.parse(resFileData);
-    console.log(resInfo); 
-    
+
     res.send(resInfo);     
 });
 
@@ -32,6 +31,15 @@ app.get('/getreservation/user/:username', (req, res) => {
     res.send(temp); 
 });
 
+app.get("/getusers", (req, res) =>{
+    console.log("get users ")
+    let userFileData = fs.readFileSync('users.json');
+    let users = JSON.parse(userFileData); 
+
+    res.send(users);
+
+})
+
 app.post('/postusers/:username', (req, res) => {
     let username = req.params.username;
     console.log(`post users/${username}`);
@@ -41,7 +49,16 @@ app.post('/postusers/:username', (req, res) => {
 
     let temp = {}; 
     temp.name = username; 
-    console.log(temp);
+    
+    //prevents having two different for one user
+    users.forEach((user, index) =>{
+        console.log("checking for existing users....");
+        if(user.name == temp.name){
+            console.log("match");
+            users.splice(index, 1);
+        }
+    })
+
     users.push(temp); 
 
     users.sort((user1, user2) => {
@@ -52,7 +69,7 @@ app.post('/postusers/:username', (req, res) => {
 
     fs.writeFileSync('users.json', JSON.stringify(users));
     console.log(users);
-    res.send(temp);
+    res.send(users);
 });
 
 app.post("/postreservation/user/:username/startDate/:startDate/startTime/:startTime/numHours/:numHours", (req, res) => {
@@ -83,12 +100,10 @@ app.post("/postreservation/user/:username/startDate/:startDate/startTime/:startT
 
     reservations.push(temp);
 
+    //sort 
     reservations.sort((res1, res2) => {
         if (res1.startDate > res2.startDate) return 1; 
         if (res1.startDate < res2.startDate) return -1; 
-
-        if (res1.startTime > res2.startTime) return 1;
-        if (res1.startTime < res2.startTime) return -1; 
     });
 
     console.log(reservations);
