@@ -1,5 +1,3 @@
-////////////////////////////////////////////////////////////////////////////////////////////////// API PART
-// create application for web server
 let cors = require('cors');
 const fs = require('fs');
 const express = require('express');
@@ -7,104 +5,135 @@ const app = express();
 app.use(cors());
 const port = 3000;
 
-let reservations = [
-    
-];
-
-let users = [
- 
-];
 
 app.get('/getreservations', (req, res) => {
     console.log(`get reservations`);
-    res.send(reservations);     
+    let resFileData = fs.readFileSync("reservations.json");
+    let resInfo = JSON.parse(resFileData);
+
+    res.send(resInfo);     
 });
 
-//sync issue 
 app.get('/getreservation/user/:username', (req, res) => {
     let username = req.params.username; 
     console.log(`get reservations${username}`);
+    let resFileData = fs.readFileSync("reservations.json");
+    let reservations = JSON.parse(resFileData);
 
     let temp; 
     reservations.forEach(reservation => {
         if(reservation.name == username){
             console.log("match");
-            temp = reservation.username;
+            temp = reservation;
         }
     });
+
     res.send(temp); 
 });
+
+app.get("/getusers", (req, res) =>{
+    console.log("get users ")
+    let userFileData = fs.readFileSync('users.json');
+    let users = JSON.parse(userFileData); 
+
+    res.send(users);
+
+})
 
 app.post('/postusers/:username', (req, res) => {
     let username = req.params.username;
     console.log(`post users/${username}`);
 
-    let temp = {};
-    temp.name = username; 
-    users.push(temp); 
-    console.log(users);
+    let userFileData = fs.readFileSync('users.json');
+    let users = JSON.parse(userFileData);
 
-    fs.writeFile('users.json', JSON.stringify(users), err => {
-        if (err) throw err; 
-        console.log('Saved File.')
-    });
-    res.send(`${username}`);
-});
-
-app.post('/postreservation/user/:username/startTime/:startTime', (req, res) => {
-    let username = req.params.username; 
-    let startTime = req.params.startTime; 
-    console.log(`post reservations/user/${username}/startTime/${startTime}`);
-    
     let temp = {}; 
     temp.name = username; 
-    temp.startTime = startTime; 
-    reservations.push(temp);
-    reservations.sort((res1, res2) => {
-        if (res1.startTime > res2.startTime) return 1; 
-        if (res1.startTime < res2.startTime) return -1; 
+    
+    //prevents having two different for one user
+    users.forEach((user, index) =>{
+        console.log("checking for existing users....");
+        if(user.name == temp.name){
+            console.log("match");
+            users.splice(index, 1);
+        }
+    })
+
+    users.push(temp); 
+
+    users.sort((user1, user2) => {
+        if (user1.name > user2.name) return 1; 
+        if (user1.name < user2.name) return -1; 
+
     });
+
+    fs.writeFileSync('users.json', JSON.stringify(users));
+    console.log(users);
+    res.send(users);
+});
+
+app.post("/postreservation/user/:username/startDate/:startDate/startTime/:startTime/numHours/:numHours", (req, res) => {
+    let username = req.params.username; 
+    let startDate = req.params.startDate; 
+    let startTime = req.params.startTime; 
+    let numHours = req.params.numHours; 
+    
+    console.log(`postreservation/user/${username}/startDate/${startDate}/startTime/${startTime}/numHours/${numHours}`);
+    
+    let resFileData = fs.readFileSync('reservations.json');
+    let reservations = JSON.parse(resFileData);
+
+    let temp = {}; 
+    temp.name = username; 
+    temp.startDate = startDate; 
+    temp.startTime = startTime; 
+    temp.numHours = numHours; 
+
+    //prevents having two different for one user
+    reservations.forEach((reservation, index) =>{
+        console.log("checking for existing reservations....");
+        if(reservation.name == temp.name){
+            console.log("match");
+            reservations.splice(index, 1);
+        }
+    })
+
+    reservations.push(temp);
+
+    //sort 
+    reservations.sort((res1, res2) => {
+        if (res1.startDate > res2.startDate) return 1; 
+        if (res1.startDate < res2.startDate) return -1; 
+    });
+
     console.log(reservations);
     
-    fs.writeFile('reservations.json', JSON.stringify(reservations), err => {
-        if (err) throw err; 
-        console.log('Saved File.')
+    fs.writeFileSync('reservations.json', JSON.stringify(reservations));
+    res.send(reservations); 
+});
+
+app.delete('/deletereservation/user/:username', (req, res) =>{
+    let username = req.params.username; 
+
+    console.log(`delete reservations/user/${username}`);
+
+    let resFileData = fs.readFileSync('reservations.json');
+    let reservations = JSON.parse(resFileData);
+
+    reservations.forEach((reservation, index) => {
+        if (reservation.name == username ){
+            console.log("match");
+            reservations.splice(index, 1);
+        }
     });
-    res.send(`Username: ${username} Start Date: ${startTime}`); 
-});
 
+    console.log(reservations);
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
-
-/////////////////////////////////////////////////////////////////////////////////////////////// File part 
-/*
-
-resList.forEach((elt) => {
-    console.log(`Name: ${elt.name}, Num: ${elt.num}`)
-});
-
-
-fs.writeFile('resList1.json', JSON.stringify(resList), err => {
-    if (err) throw err; 
-    console.log('Saved File.')
-});
-
-//Its going to be problematic when we read the file and then use it 
-//Reading from the file is an async operations
-//error trying to assign a value that doesn't exist yest 
-
-let resFileData = fs.readFileSync("resList1.json");
-
-let resInfo = JSON.parse(resFileData);
-
-resInfo.sort((res1, res2) => {
-    if (res1.num > res2.num) return 1; 
-    if (res1.num < res2.num) return -1; 
+    fs.writeFileSync('reservations.json', JSON.stringify(reservations));
+    res.send(reservations);
 })
 
-console.log(resInfo);
-*/
-
+app.listen(port, () => console.log(`Listening on port ${port}`));
 
 
 

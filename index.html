@@ -9,51 +9,96 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
-    <h2>Welcome to our Laptop Rental</h2>
+<body onload="open();">
 
-    <h3>Add Username to System</h3>
-    <p>Please enter a username in order to add it to the system:</p>
+    <div class="div1"> 
+        <h2>Welcome to our Laptop Rental</h2>
 
-    <input type="text" id="addUser" name="addUser"><br><br>
+        <h3>Add Username to System</h3>
+        <p>Please enter a username in order to add it to the system:</p>
 
-    <button onclick="addUser();">Add Username</button>
-    <ul id="retrieve"></ul>
+        <input type="text" id="addUser" name="addUser"><br><br>
 
-    <br>
+        <button onclick="addUser();">Add Username</button>
+        <ul id="retrieve"></ul>
 
-    <h3>Retrieve Reservation Information</h3>
-    <p>Please search a username to retrieve any associated reservation info:</p>
+        <br>
 
-    <input type="text" id="getReservationUsername" name="getReservationUsername"><br><br>
+        <h3>Retrieve Reservation Information</h3>
+        <p>Please search a username to retrieve any associated reservation info:</p>
 
-    <button onclick="getReservationUsername();">Retrieve Reservation Info</button>
-    <ul id="retrieve"></ul>
+        <input type="text" id="getReservationUsername" name="getReservationUsername"><br><br>
 
-    <br>
+        <button onclick="getReservationUsername();">Retrieve Reservation Info</button>
+
+        <br>
+
+        
+        <h3>Add Reservation</h3>
+        <p>Please add the necessary information to create a reservation:</p>
+
+        <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br>
+        <label for="startDate">Start Date: (Format MM-DD)</label><br>
+            <input type="text" id="startDate" name="startDate" required><br>
+        <label for="startTime">Start Time:</label><br>
+            <input type="text" id="startTime" name="startTime" required><br>
+        <label for="numHours">Number of Hours:</label><br>
+            <input type="number" id="numHours" name="numHours" required><br><br>
+
+        <button onclick="addReservation(); ">Submit Reservation Info</button><br>
+        
     
-    <h3>Add Reservation</h3>
-    <p>Please add the necessary information to create a reservation:</p>
+        <br>
 
-    <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br>
-    <label for="startTime">Start Time:</label><br>
-        <input type="datetime-local" id="startTime" name="startTime" required><br>
-    <label for="numHours">Number of Hours:</label><br>
-        <input type="number" id="numHours" name="numHours" required><br><br>
+        <h3>Delete Reservation Information</h3>
+        <p>Please search a username to delete any associated reservation info:</p>
 
-    <button onclick="addReservation(); ">Submit Reservation Info</button><br>
+        <input type="text" id="deleteReservationUsername" name="deleteReservationUsername"><br><br>
+
+        <button onclick="deleteReservation();">Delete Reservation Info</button>
+
+        <br>
+        <br>
+
+        <h3>Retrieve All Reservation Information</h3>
+        <p>Click here to retrieve all reservations information for all users:</p>
+        <button onclick="getReservations(); ">Get List of Reservations</button>
+        
+        <br>
+        <br>
+    </div>
+
+    <div class="div2">
+        <h3>Reservations</h3>
+        <table id="reservations">
+            <tr>
+                <th>
+                    Username
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    Start Time
+                </th>
+                <th>
+                    Number of hours 
+                </th>
+            </tr>
+        </table>
+    </div>
+    <div class="div3">
+        <h3>Users</h3>
+        <table id="users">
+            <tr>
+                <th>
+                    Username
+                </th>
+            </tr>
+        </table>
+    </div>
     
-    <br>
-
-    <h3>Reservation Information: </h3>
-
-    <button onclick="getReservations(); ">Get List of Reservations</button><br>
-
-    <table id="reservations"></table>
-
-
-
     <script src="client.js" defer></script>
 </body>
 
